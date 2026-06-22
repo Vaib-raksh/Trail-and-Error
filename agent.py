@@ -10,17 +10,20 @@ conversation = [
 ]
 
 def ask_ai(question):
-    conversation.append({"role": "user", "content": question})
-    
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=conversation
-    )
-    
-    answer = response.choices[0].message.content
-    conversation.append({"role": "assistant", "content": answer})
-    return answer
+    try:
 
+        conversation.append({"role": "user", "content": question})
+    
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=conversation
+        )
+    
+        answer = response.choices[0].message.content
+        conversation.append({"role": "assistant", "content": answer})
+        return answer
+    except Exception as e:
+        return f"Something went wrong: {e}. Please try again."
 while True:
     question = input("You: ")
     if question == "exit":
