@@ -1,7 +1,14 @@
 import gradio as gr
 from aaharwise import chat
-from database import add_user, add_meal
+from database import add_user, add_meal, get_meals
 from datetime import datetime
+import sqlite3
+
+# create default user if not exists
+conn = sqlite3.connect("aaharwise.db", check_same_thread=False)
+cursor = conn.cursor()
+cursor.execute("INSERT OR IGNORE INTO users (id, name, age) VALUES (1, 'User', 0)")
+conn.commit()
 
 # default user for now
 USER_ID = 1
